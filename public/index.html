@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>网页登录问答</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="login-view" id="loginView">
+        <div class="login-panel">
+          <div class="brand-row">
+            <div class="brand-mark" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <p class="eyebrow">OpenAI Web</p>
+              <h1>网页登录</h1>
+            </div>
+          </div>
+
+          <form class="login-form" id="loginForm">
+            <label>
+              <span>用户名</span>
+              <input
+                id="username"
+                name="username"
+                autocomplete="username"
+                value="demo"
+                required
+              />
+            </label>
+            <label>
+              <span>密码</span>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                value="demo123"
+                required
+              />
+            </label>
+            <button class="primary-button" type="submit">登录</button>
+          </form>
+
+          <p class="form-message" id="loginMessage" role="status"></p>
+        </div>
+
+        <div class="flow-panel" aria-label="请求流程">
+          <div class="flow-step active">登录</div>
+          <div class="flow-line"></div>
+          <div class="flow-step">输入问题</div>
+          <div class="flow-line"></div>
+          <div class="flow-step">后端服务器</div>
+          <div class="flow-line"></div>
+          <div class="flow-step">Responses API</div>
+          <div class="flow-line"></div>
+          <div class="flow-step accent">网页显示</div>
+        </div>
+      </section>
+
+      <section class="chat-view hidden" id="chatView" aria-live="polite">
+        <aside class="session-panel">
+          <div class="session-header">
+            <div class="brand-mark small" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <p class="eyebrow">OpenAI Web</p>
+              <h2>问答台</h2>
+            </div>
+          </div>
+
+          <div class="status-list">
+            <div>
+              <span>状态</span>
+              <strong id="sessionStatus">已登录</strong>
+            </div>
+            <div>
+              <span>模型</span>
+              <strong id="modelName">读取中</strong>
+            </div>
+          </div>
+
+          <button class="ghost-button" id="logoutButton" type="button">
+            退出登录
+          </button>
+        </aside>
+
+        <section class="chat-panel">
+          <header class="chat-header">
+            <div>
+              <p class="eyebrow">Responses API</p>
+              <h1>GPT 生成答案</h1>
+            </div>
+            <button class="clear-button" id="clearButton" type="button">
+              清空
+            </button>
+          </header>
+
+          <div class="messages" id="messages">
+            <article class="message assistant">
+              <div class="bubble">你好，登录已完成。现在可以向 GPT 提问。</div>
+            </article>
+          </div>
+
+          <form class="ask-form" id="askForm">
+            <textarea
+              id="question"
+              name="question"
+              rows="3"
+              maxlength="4000"
+              placeholder="输入你的问题"
+              required
+            ></textarea>
+            <button class="primary-button send-button" id="sendButton" type="submit">
+              发送
+            </button>
+          </form>
+        </section>
+      </section>
+    </main>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
