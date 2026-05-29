@@ -10,6 +10,8 @@ const questionInput = document.querySelector("#question");
 const sendButton = document.querySelector("#sendButton");
 const sessionStatus = document.querySelector("#sessionStatus");
 const modelName = document.querySelector("#modelName");
+const productApiLabel = document.querySelector("#productApiLabel");
+const productTitle = document.querySelector("#productTitle");
 const modelDetail = document.querySelector("#modelDetail");
 const keyStatus = document.querySelector("#keyStatus");
 const proxyStatus = document.querySelector("#proxyStatus");
@@ -364,6 +366,10 @@ function setMode(activeButton) {
   document.querySelectorAll(".nav-item[data-mode]").forEach((button) => {
     button.classList.toggle("active", button === activeButton);
   });
+
+  const productName = activeButton.dataset.product || activeButton.textContent.trim();
+  productApiLabel.textContent = productName;
+  productTitle.textContent = productName;
 
   const modeText = activeButton.textContent.trim();
   showToast(`已切换：${modeText}`);
