@@ -74,6 +74,8 @@ function bindEvents() {
   document.querySelectorAll(".nav-item[data-mode]").forEach((button) => {
     button.addEventListener("click", () => setMode(button));
   });
+
+  syncProductHeader(document.querySelector(".nav-item[data-mode].active"));
 }
 
 async function handleLogin(event) {
@@ -367,12 +369,18 @@ function setMode(activeButton) {
     button.classList.toggle("active", button === activeButton);
   });
 
-  const productName = activeButton.dataset.product || activeButton.textContent.trim();
-  productApiLabel.textContent = productName;
-  productTitle.textContent = productName;
+  syncProductHeader(activeButton);
 
   const modeText = activeButton.textContent.trim();
   showToast(`已切换：${modeText}`);
+}
+
+function syncProductHeader(activeButton) {
+  if (!activeButton) return;
+
+  const fallbackName = activeButton.textContent.trim().replace(/专区$/, "");
+  productApiLabel.textContent = activeButton.dataset.apiLabel || fallbackName;
+  productTitle.textContent = activeButton.dataset.title || fallbackName;
 }
 
 function toggleNotice(isVisible) {
