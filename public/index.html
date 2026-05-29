@@ -102,15 +102,15 @@
 
           <nav class="nav-group" aria-label="产品导航">
             <p class="nav-title">AI 产品</p>
-            <button class="nav-item active" type="button" data-mode="responses">
+            <button class="nav-item active" type="button" data-mode="claude" data-product="Claude">
               <span class="nav-icon"></span>
               Claude专区
             </button>
-            <button class="nav-item" type="button" data-mode="plus">
+            <button class="nav-item" type="button" data-mode="chatgpt" data-product="Chatgpt">
               <span class="nav-icon"></span>
               Chatgpt专区
             </button>
-            <button class="nav-item" type="button" data-mode="mini">
+            <button class="nav-item" type="button" data-mode="gemini" data-product="Gemini">
               <span class="nav-icon"></span>
               Gemini专区
             </button>
@@ -142,8 +142,8 @@
         <section class="workbench">
           <header class="topbar">
             <div>
-              <p class="eyebrow">Responses API</p>
-              <h1>GPT</h1>
+              <p class="eyebrow" id="productApiLabel">Claude</p>
+              <h1 id="productTitle">Claude</h1>
             </div>
             <div class="top-actions">
               <span class="model-chip" id="modelName">读取中</span>
