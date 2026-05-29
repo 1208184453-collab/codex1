@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>网页登录问答</title>
+    <title>AI 问答工作台</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -15,10 +15,11 @@
               <span></span>
               <span></span>
               <span></span>
+              <span></span>
             </div>
             <div>
-              <p class="eyebrow">OpenAI Web</p>
-              <h1>网页登录</h1>
+              <p class="eyebrow">Responses API</p>
+              <h1>AI 问答工作台</h1>
             </div>
           </div>
 
@@ -50,82 +51,234 @@
           <p class="form-message" id="loginMessage" role="status"></p>
         </div>
 
-        <div class="flow-panel" aria-label="请求流程">
-          <div class="flow-step active">登录</div>
-          <div class="flow-line"></div>
-          <div class="flow-step">输入问题</div>
-          <div class="flow-line"></div>
-          <div class="flow-step">后端服务器</div>
-          <div class="flow-line"></div>
-          <div class="flow-step">Responses API</div>
-          <div class="flow-line"></div>
-          <div class="flow-step accent">网页显示</div>
+        <div class="login-showcase" aria-label="问答流程预览">
+          <div class="showcase-header">
+            <div>
+              <p class="eyebrow">本地服务</p>
+              <h2>登录后即可进入问答台</h2>
+            </div>
+            <span class="live-pill">在线</span>
+          </div>
+
+          <div class="route-map">
+            <div class="route-step active">网页登录</div>
+            <div class="route-step">输入问题</div>
+            <div class="route-step">后端服务器</div>
+            <div class="route-step">OpenAI API</div>
+            <div class="route-step accent">网页显示</div>
+          </div>
+
+          <div class="preview-grid">
+            <div class="preview-card">
+              <span>AI 产品</span>
+              <strong>Responses API</strong>
+            </div>
+            <div class="preview-card">
+              <span>模型</span>
+              <strong>Mini 模式</strong>
+            </div>
+            <div class="preview-card">
+              <span>状态</span>
+              <strong>空闲</strong>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="chat-view hidden" id="chatView" aria-live="polite">
-        <aside class="session-panel">
-          <div class="session-header">
+      <section class="workspace hidden" id="chatView" aria-live="polite">
+        <aside class="sidebar">
+          <div class="sidebar-brand">
             <div class="brand-mark small" aria-hidden="true">
               <span></span>
               <span></span>
               <span></span>
+              <span></span>
             </div>
             <div>
-              <p class="eyebrow">OpenAI Web</p>
+              <p class="eyebrow">AI 产品</p>
               <h2>问答台</h2>
             </div>
           </div>
 
-          <div class="status-list">
+          <nav class="nav-group" aria-label="产品导航">
+            <p class="nav-title">AI 产品</p>
+            <button class="nav-item active" type="button" data-mode="responses">
+              <span class="nav-icon"></span>
+              Responses API
+            </button>
+            <button class="nav-item" type="button" data-mode="plus">
+              <span class="nav-icon"></span>
+              GPT Plus 专区
+            </button>
+            <button class="nav-item" type="button" data-mode="mini">
+              <span class="nav-icon"></span>
+              GPT mini 专区
+            </button>
+          </nav>
+
+          <nav class="nav-group" aria-label="系统导航">
+            <p class="nav-title">导航</p>
+            <button class="nav-item" id="noticeButton" type="button">
+              <span class="nav-icon square"></span>
+              查看公告
+            </button>
+            <button class="nav-item" id="themeButton" type="button">
+              <span class="nav-icon moon"></span>
+              深色模式
+            </button>
+          </nav>
+
+          <div class="sidebar-footer">
             <div>
-              <span>状态</span>
+              <span>当前用户</span>
               <strong id="sessionStatus">已登录</strong>
             </div>
-            <div>
-              <span>模型</span>
-              <strong id="modelName">读取中</strong>
-            </div>
+            <button class="ghost-button" id="logoutButton" type="button">
+              退出登录
+            </button>
           </div>
-
-          <button class="ghost-button" id="logoutButton" type="button">
-            退出登录
-          </button>
         </aside>
 
-        <section class="chat-panel">
-          <header class="chat-header">
+        <section class="workbench">
+          <header class="topbar">
             <div>
               <p class="eyebrow">Responses API</p>
               <h1>GPT 生成答案</h1>
             </div>
-            <button class="clear-button" id="clearButton" type="button">
-              清空
-            </button>
+            <div class="top-actions">
+              <span class="model-chip" id="modelName">读取中</span>
+              <button class="clear-button" id="clearButton" type="button">
+                清空
+              </button>
+            </div>
           </header>
 
-          <div class="messages" id="messages">
-            <article class="message assistant">
-              <div class="bubble">你好，登录已完成。现在可以向 GPT 提问。</div>
-            </article>
+          <div class="filter-bar" aria-label="通道筛选">
+            <button class="filter-chip active" type="button" data-filter="all">
+              全部 <span id="allCount">4</span>
+            </button>
+            <button class="filter-chip" type="button" data-filter="recommended">
+              推荐 <span id="recommendedCount">3</span>
+            </button>
+            <button class="filter-chip" type="button" data-filter="busy">
+              繁忙 <span id="busyCount">1</span>
+            </button>
           </div>
 
-          <form class="ask-form" id="askForm">
-            <textarea
-              id="question"
-              name="question"
-              rows="3"
-              maxlength="4000"
-              placeholder="输入你的问题"
-              required
-            ></textarea>
-            <button class="primary-button send-button" id="sendButton" type="submit">
-              发送
-            </button>
-          </form>
+          <div class="content-grid">
+            <section class="chat-panel">
+              <div class="messages" id="messages"></div>
+
+              <div class="quick-prompts" aria-label="快捷提问">
+                <button type="button" data-prompt="帮我检查这个网页项目还有哪些可以优化。">
+                  网页优化
+                </button>
+                <button type="button" data-prompt="用简单的话解释这个报错，并告诉我下一步怎么做。">
+                  报错解释
+                </button>
+                <button type="button" data-prompt="给我写一段适合这个网页首页的中文介绍文案。">
+                  文案生成
+                </button>
+                <button type="button" data-prompt="把下面内容整理成清晰的步骤。">
+                  步骤整理
+                </button>
+              </div>
+
+              <form class="ask-form" id="askForm">
+                <label class="composer">
+                  <span class="sr-only">输入你的问题</span>
+                  <textarea
+                    id="question"
+                    name="question"
+                    rows="4"
+                    maxlength="4000"
+                    placeholder="输入你的问题"
+                    required
+                  ></textarea>
+                </label>
+                <div class="composer-actions">
+                  <span class="char-count" id="charCount">0 / 4000</span>
+                  <button
+                    class="primary-button send-button"
+                    id="sendButton"
+                    type="submit"
+                  >
+                    发送
+                  </button>
+                </div>
+              </form>
+            </section>
+
+            <aside class="status-column" aria-label="运行状态">
+              <article class="channel-card" data-filter-value="recommended">
+                <div class="card-title">
+                  <span class="card-icon"></span>
+                  <h3>当前模型</h3>
+                  <span class="badge">推荐</span>
+                </div>
+                <p id="modelDetail">读取中</p>
+                <div class="load-line"><span></span></div>
+                <small>空闲</small>
+              </article>
+
+              <article class="channel-card" data-filter-value="recommended">
+                <div class="card-title">
+                  <span class="card-icon green"></span>
+                  <h3>API Key</h3>
+                  <span class="badge">本地</span>
+                </div>
+                <p id="keyStatus">检查中</p>
+                <div class="load-line"><span></span></div>
+                <small>空闲</small>
+              </article>
+
+              <article class="channel-card" data-filter-value="recommended">
+                <div class="card-title">
+                  <span class="card-icon amber"></span>
+                  <h3>代理通道</h3>
+                  <span class="badge">代理</span>
+                </div>
+                <p id="proxyStatus">检查中</p>
+                <div class="load-line"><span></span></div>
+                <small>空闲</small>
+              </article>
+
+              <article class="channel-card busy" data-filter-value="busy">
+                <div class="card-title">
+                  <span class="card-icon red"></span>
+                  <h3>额度状态</h3>
+                  <span class="badge dark">账号</span>
+                </div>
+                <p id="quotaStatus">等待请求</p>
+                <div class="load-line warning"><span></span></div>
+                <small id="quotaLabel">待确认</small>
+              </article>
+            </aside>
+          </div>
         </section>
       </section>
     </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <div class="modal hidden" id="noticeModal" role="dialog" aria-modal="true">
+      <div class="modal-panel">
+        <div class="modal-header">
+          <h2>系统公告</h2>
+          <button class="icon-button" id="closeNoticeButton" type="button" aria-label="关闭公告">
+            ×
+          </button>
+        </div>
+        <div class="notice-list">
+          <p>本地网页地址：<strong>http://localhost:3000</strong></p>
+          <p>OpenAI Key 只在本机环境变量或 .env 中读取，页面不会显示明文。</p>
+          <p>如果接口提示 quota 或 billing，需要在 OpenAI 平台检查账号额度。</p>
+        </div>
+        <button class="primary-button modal-action" id="confirmNoticeButton" type="button">
+          知道了
+        </button>
+      </div>
+    </div>
 
     <script src="/app.js" defer></script>
   </body>

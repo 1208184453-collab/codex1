@@ -140,6 +140,10 @@ function handleSession(req, res) {
     loggedIn: true,
     username: session.username,
     model: CONFIG.openaiModel,
+    apiKeyConfigured: Boolean(CONFIG.openaiApiKey),
+    proxyEnabled: Boolean(CONFIG.openaiProxyUrl),
+    proxyTarget: describeProxyTarget(CONFIG.openaiProxyUrl),
+    port: PORT,
   });
 }
 
@@ -218,6 +222,18 @@ function normalizeProxyUrl(value) {
   if (!text) return null;
   if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(text)) text = `http://${text}`;
   return new URL(text);
+}
+
+function describeProxyTarget(value) {
+  if (!value) return "";
+
+  try {
+    const proxyUrl = normalizeProxyUrl(value);
+    const port = proxyUrl.port || (proxyUrl.protocol === "https:" ? "443" : "80");
+    return `${proxyUrl.hostname}:${port}`;
+  } catch {
+    return "已设置";
+  }
 }
 
 function fetchViaHttpProxy(urlString, options, proxyUrl) {
